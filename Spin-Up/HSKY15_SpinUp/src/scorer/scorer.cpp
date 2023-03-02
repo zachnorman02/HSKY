@@ -11,11 +11,14 @@ namespace src::Scorer {
 ControllerButton intakeButton(ControllerDigital::L1);
 ControllerButton outtakeButton(ControllerDigital::L2);
 ControllerButton catapultFire(ControllerDigital::R1);
+ControllerButton catapultRelease(ControllerDigital::R2);
 
 // Scorer internal state
 IntakeState currentIntakeState = IntakeState::STOPPED;
 IntakeState previousIntakeState = IntakeState::STOPPED;
-CatapultState currentCatapultState = CatapultState::READY;
+// CatapultState currentCatapultState = CatapultState::READY;
+IntakeState currentCatapultState = IntakeState::STOPPED;
+IntakeState previousCatapultState = IntakeState::STOPPED;
 
 /**
  * @brief Applies the given IntakeState to the intake motor
@@ -23,6 +26,26 @@ CatapultState currentCatapultState = CatapultState::READY;
  * @param state the desired state of the Intake mechanism
  */
 void setIntakeMotion(IntakeState state) {
+    currentIntakeState = state;
+    switch (state) {
+        case IntakeState::STOPPED:
+            catapultMotor.moveVoltage(0);
+            break;
+        case IntakeState::INTAKING:
+            catapultMotor.moveVoltage(12000);
+            break;
+        case IntakeState::OUTTAKING:
+            catapultMotor.moveVoltage(-12000);
+            break;
+    }
+}
+
+/**
+ * @brief Applies the given IntakeState to the intake motor
+ *
+ * @param state the desired state of the Intake mechanism
+ */
+void setCatapultMotion(IntakeState state) {
     currentIntakeState = state;
     switch (state) {
         case IntakeState::STOPPED:
@@ -37,25 +60,25 @@ void setIntakeMotion(IntakeState state) {
     }
 }
 
-/**
- * @brief Applies the given CatapultState to the catapult motor
- *
- * @param state the desired state of the Catapult mechanism
- */
-void setCatapultMotion(CatapultState state) {
-    switch (state) {
-        case CatapultState::READY:
-            // Do nothing
-            break;
-        case CatapultState::LAUNCHING:
-            // Fire catapult, then reset, and set state to READY
-            pullDownAndFireCatapult();
-            pros::delay(CATA_PULL_DOWN_DELAY_MS);
-            pullDownCatapult();
-            currentCatapultState = CatapultState::READY;
-            break;
-    }
-}
+// /**
+//  * @brief Applies the given CatapultState to the catapult motor
+//  *
+//  * @param state the desired state of the Catapult mechanism
+//  */
+// void setCatapultMotion(CatapultState state) {
+//     switch (state) {
+//         case CatapultState::READY:
+//             // Do nothing
+//             break;
+//         case CatapultState::LAUNCHING:
+//             // Fire catapult, then reset, and set state to READY
+//             pullDownAndFireCatapult();
+//             pros::delay(CATA_PULL_DOWN_DELAY_MS);
+//             pullDownCatapult();
+//             currentCatapultState = CatapultState::READY;
+//             break;
+//     }
+// }
 
 /**
  * @brief Pulls down the catapult until the button is pressed
@@ -158,7 +181,7 @@ void initialize() {
     catapultMotor.setBrakeMode(AbstractMotor::brakeMode::hold);
     intakeMotor.setBrakeMode(AbstractMotor::brakeMode::coast);
     currentIntakeState = IntakeState::STOPPED;
-    currentCatapultState = CatapultState::READY;
+    currentCatapultState = IntakeState::STOPPED;
 }
 
 /**
@@ -181,13 +204,28 @@ void update() {
         currentIntakeState = IntakeState::STOPPED;
     }
 
-    // If the catapult is ready, fire it when the fire button is pressed
-    // Catapult mechanism will handle LAUNCHING -> READY transition
-    if (catapultFire.changedToPressed()) {
-        if (currentCatapultState == CatapultState::READY && getNumDiscsInBasket() > 0) {
-            currentCatapultState = CatapultState::LAUNCHING;
-        }
+    // Override outtake but return to previous intake state
+    if (catapultRelease.changedToPressed()) {
+        previousCatapultState = currentIntakeState;
+        currentCatapultState = IntakeState::OUTTAKING;
+    } else if (outtakeButton.changedToReleased()) {
+        currentCatapultState = previousCatapultState;
     }
+
+    // Intake runs while button is being held
+    if (catapultFire.changedToPressed()) {
+        currentCatapultState = IntakeState::INTAKING;
+    } else if (catapultFire.changedToReleased()) {
+        currentCatapultState = IntakeState::STOPPED;
+    }
+
+    // // If the catapult is ready, fire it when the fire button is pressed
+    // // Catapult mechanism will handle LAUNCHING -> READY transition
+    // if (catapultFire.changedToPressed()) {
+    //     if (currentCatapultState == CatapultState::READY && getNumDiscsInBasket() > 0) {
+    //         currentCatapultState = CatapultState::LAUNCHING;
+    //     }
+    // }
 }
 
 /**
