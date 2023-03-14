@@ -6,7 +6,7 @@ I put it in this separate folder because I didn't want to delete anything that w
 
 ## Relevant things to know
 
-* The [firmware](firmware) folder contains, well, firmware. Include this too.
+* The [firmware](firmware) folder contains firmware (shocking) for the brain. Include this.
 * The [include](include) folder contains the library files, such as PROS, okapi, and Littlev (for the auton selection GUI). You want to include these. You see this also includes [include/api.h](api.h), [include/main.h](main.h), and [include/robot_constants.hpp](robot_constants.hpp). It's up to you how you want to do robot_constants and where to put it or how to go about it, but you should also include the api and main header files in any project you make.
 * In [src](src), you will see a few files and a few folders.
   * [src/main.cpp](main.cpp) is the main file that runs the robot. You will see functions for auton, initialization, and op control. There in comments in there for what each of those mean, but this is where you'll put the code for each of those. If you wanted to, you could write the entire robot code in that one file, but you probably want to have separate files for everything.
