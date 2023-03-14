@@ -4,7 +4,7 @@ This is a template for VEX code. I essentially took the existing 2023 code and s
 
 I put it in this separate folder because I didn't want to delete anything that was already done, but I wanted to give a reference for getting drive code up and running.
 
-## Relevant things to know:
+## Relevant things to know
 
 * The [firmware](firmware) folder contains, well, firmware. Include this too.
 * The [include](include) folder contains the library files, such as PROS, okapi, and Littlev (for the auton selection GUI). You want to include these. You see this also includes [include/api.h](api.h), [include/main.h](main.h), and [include/robot_constants.hpp](robot_constants.hpp). It's up to you how you want to do robot_constants and where to put it or how to go about it, but you should also include the api and main header files in any project you make.
