@@ -15,5 +15,12 @@ I put it in this separate folder because I didn't want to delete anything that w
     * TODO: test to make sure I didn't delete anything important
   * [src/scorer](scorer) is for the catapult and intake. I didn't delete anything here, but this involves using sensors, and also includes the code for how to control them, similar to the drive code. If you understand the drive code, this should make sense.
     * TODO: look into what the colors refer to
+* Finally, you've got the other files in the root folder.
+  * [.clang-format](.clang-format) is the linter file that checks for formatting and whatnot. Not necessary, but it's nice to have.
+  * [.gitignore](.gitignore) is a list of files that won't be committed to git if they are changed.
+  * [common.mk](common.mk) is a file that you need but don't need to worry about, it has to do with building and compiling the code.
+  * [Makefile](Makefile) is also for building and compiling the code. You shouldn't need to touch this.
+  * [project.pros](project.pros) is the PROS settings. You'll get a nice interface to look at if you open it in VSCode. You can change the name that the code displays as and its icon, its description, what to do after the code uploads, and the program slot it should load into, in case you have multiple forms of code on the robot.
+  * [README.md](README.md) is this file!
 
 Hopefully this seems a bit more simple to follow, and a lot of this will stay relevant for any future games as well.
