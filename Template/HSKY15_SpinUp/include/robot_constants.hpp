@@ -1,7 +1,10 @@
 #pragma once
 #include "main.h"
 
-// Below are the motor ports. The numbers correspond to which port number each motor is plugged into on the PROS controller. 
+// All constants relevant for the 15" robot
+// DEAD PORTS: 1, 6, 9, 10, 21, 13, 3
+
+// Motor Ports
 static constexpr uint8_t CHASSIS_PORT_L1 = 1;
 static constexpr uint8_t CHASSIS_PORT_L2 = 2;
 static constexpr uint8_t CHASSIS_PORT_L3 = 3;

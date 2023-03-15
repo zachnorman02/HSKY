@@ -6,7 +6,6 @@
 #define Chassis src::Chassis
 #define Scorer src::Scorer
 
-// Where you do the auton code
 namespace src::AutonRoutines {
 
 void skills() {

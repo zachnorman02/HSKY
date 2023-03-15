@@ -36,7 +36,16 @@ extern void initialize();
 extern void update();
 extern void act();
 
+// Chassis motion functions
+extern void movePID(float leftTarget, float rightTarget, int ms, float maxV = 1.0f);
+extern void movePIDOdom(float leftTarget, float rightTarget, int ms, float maxV = 1.0f);
+extern void gyroPID(float degree, bool CW, int ms = 1000);
+extern void turnPID(float degree, bool CW, int ms = 1000, float maxV = 0.5f);
+extern void ultrasonicPID(int distance, int ms = 2000);
+extern void turnToPoint(float targetX, float targetY);
+
 // Chassis state functions
+extern void setRobotStartingPosition(Motion::StartingPosition position);
 extern void setChassisBrakeMode(AbstractMotor::brakeMode mode);
 
 // Chassis sensors

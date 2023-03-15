@@ -7,7 +7,6 @@ int autonIndexSelected = 0;
 int autonCount;
 const char *autonNames[] = {"", "", "", "", "", "", "", "", "", "", ""}; // up to 10 autons
 
-// File for auton switcher. 
 Auton getSelectedAuton() {
     switch (autonIndexSelected) {
         case 0:

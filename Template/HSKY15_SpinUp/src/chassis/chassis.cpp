@@ -16,6 +16,12 @@ std::shared_ptr<ChassisController> chassis =
         .withDimensions(AbstractMotor::gearset::blue, {{WHEEL_DIAMETER, WHEEL_TRACK}, imev5BlueTPR})
         .build();
 
+// Field Constants Class
+static Motion::FieldConstants fieldConstants = Motion::FieldConstants();
+
+// Static OdometrySuite instance
+static Motion::OdometrySuite odometrySuite = Motion::OdometrySuite(leftEncoder, rightEncoder, horizontalEncoder);
+
 void setChassisBrakeMode(AbstractMotor::brakeMode mode) {
     chassis->getModel()->setBrakeMode(mode);
 }
@@ -42,9 +48,28 @@ void resetImu(bool print = true) {
     }
 }
 
+/**
+ * @brief Set the Robot's Starting Position as one of the predefined positions on the field
+ *
+ * @param startPosition an enum representing which position has been selected (based on the autonomous selection)
+ */
+void setRobotStartingPosition(Motion::StartingPosition startPosition) {
+    fieldConstants.setStartingPosition(startPosition);
+}
+
 void initialize() {
     setChassisBrakeMode(AbstractMotor::brakeMode::brake);
     resetImu();
+    odometrySuite.initialize();
+}
+
+void update() {
+    // Nifty function that runs in control loop. Useful for debugging during opcontrol
+    // printf("IMU: %f", imuSensor.get_heading());
+    // printf("Ultrasonic: %d", ultrasonic.get_value());
+    // printf("Left Encoder: %d", chassis->getModel()->getSensorVals()[0]);
+    // printf("Right Encoder: %d", chassis->getModel()->getSensorVals()[1]);
+    odometrySuite.update();
 }
 
 void act() { // OpControl for chassis
