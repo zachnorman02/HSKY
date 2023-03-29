@@ -29,13 +29,13 @@ void setIntakeMotion(IntakeState state) {
     currentIntakeState = state;
     switch (state) {
         case IntakeState::STOPPED:
-            catapultMotor.moveVoltage(0);
+            intakeMotor.moveVoltage(0);
             break;
         case IntakeState::INTAKING:
-            catapultMotor.moveVoltage(12000);
+            intakeMotor.moveVoltage(12000);
             break;
         case IntakeState::OUTTAKING:
-            catapultMotor.moveVoltage(-12000);
+            intakeMotor.moveVoltage(-12000);
             break;
     }
 }
@@ -46,16 +46,16 @@ void setIntakeMotion(IntakeState state) {
  * @param state the desired state of the Intake mechanism
  */
 void setCatapultMotion(IntakeState state) {
-    currentIntakeState = state;
+    currentCatapultState = state;
     switch (state) {
         case IntakeState::STOPPED:
-            intakeMotor.moveVoltage(0);
+            catapultMotor.moveVoltage(0);
             break;
         case IntakeState::INTAKING:
-            intakeMotor.moveVoltage(12000);
+            catapultMotor.moveVoltage(12000);
             break;
         case IntakeState::OUTTAKING:
-            intakeMotor.moveVoltage(-12000);
+            catapultMotor.moveVoltage(-12000);
             break;
     }
 }
@@ -206,9 +206,9 @@ void update() {
 
     // Override outtake but return to previous intake state
     if (catapultRelease.changedToPressed()) {
-        previousCatapultState = currentIntakeState;
+        previousCatapultState = currentCatapultState;
         currentCatapultState = IntakeState::OUTTAKING;
-    } else if (outtakeButton.changedToReleased()) {
+    } else if (catapultRelease.changedToReleased()) {
         currentCatapultState = previousCatapultState;
     }
 

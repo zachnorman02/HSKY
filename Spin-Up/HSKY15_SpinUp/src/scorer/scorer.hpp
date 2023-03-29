@@ -33,6 +33,7 @@ extern void act();
 
 // Scorer mechanism functions
 extern void setIntakeMotion(IntakeState state);
+extern void setCatapultMotion(IntakeState state);
 extern void pullDownCatapult();
 extern void fireCatapult();
 extern void pullDownAndFireCatapult(int msDelay = 100);

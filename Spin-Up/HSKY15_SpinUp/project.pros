@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "HSKY15",
+    "project_name": "HSKY15Good",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -310,7 +310,8 @@
     "upload_options": {
       "description": "HSKY15 Competition Code",
       "icon": "X",
-      "after": "run"
+      "after": "run",
+      "slot": 2
     }
   }
 }
