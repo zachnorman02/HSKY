@@ -13,7 +13,6 @@
 #define AutonSelector src::AutonSelector
 #define Auton AutonSelector::Auton
 #define AutonRoutines src::AutonRoutines
-#define StartingPosition src::Motion::StartingPosition
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -58,23 +57,23 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    switch (AutonSelector::getSelectedAuton()) {
-        case Auton::SKILLS:
-            AutonRoutines::skills();
-            Chassis::setRobotStartingPosition(StartingPosition::RED_FRONT);
-            break;
-        case Auton::AUTON_1:
-            AutonRoutines::auton1();
-            Chassis::setRobotStartingPosition(StartingPosition::RED_FRONT);
-            break;
-        case Auton::AUTON_2:
-            AutonRoutines::auton2();
-            Chassis::setRobotStartingPosition(StartingPosition::BLUE_BACK);
-            break;
-        case Auton::NO_OPERATION:
-            Chassis::setRobotStartingPosition(StartingPosition::RED_BACK);
-            break;
-    }
+    // switch (AutonSelector::getSelectedAuton()) {
+    //     case Auton::SKILLS:
+    //         AutonRoutines::skills();
+    //         Chassis::setRobotStartingPosition(StartingPosition::RED_FRONT);
+    //         break;
+    //     case Auton::AUTON_1:
+    //         AutonRoutines::auton1();
+    //         Chassis::setRobotStartingPosition(StartingPosition::RED_FRONT);
+    //         break;
+    //     case Auton::AUTON_2:
+    //         AutonRoutines::auton2();
+    //         Chassis::setRobotStartingPosition(StartingPosition::BLUE_BACK);
+    //         break;
+    //     case Auton::NO_OPERATION:
+    //         Chassis::setRobotStartingPosition(StartingPosition::RED_BACK);
+    //         break;
+    // }
 }
 
 /*
@@ -107,7 +106,6 @@ void setLiftMotors() {
 void opcontrol() {
     while (true) {
         // Subsystem update will manipulate internal state from controller input
-        Chassis::update();
         Scorer::update();
 
         // Subsystem act will apply internal state to the robot
