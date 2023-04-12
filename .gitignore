@@ -8,3 +8,4 @@
 !.vscode/cquery_cached_index/
 .cache/
 __pycache__/
+.d
